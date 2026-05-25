@@ -125,9 +125,10 @@ img { max-width: 100%; display: block; }
 }
 .hero__title { margin-bottom: 1.5rem; animation: fadeUp 0.8s ease 0.15s both; }
 .hero__title-cn {
-  display: block; font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5.5rem);
-  font-weight: 700; line-height: 1.15; letter-spacing: 0.06em;
+  display: block;
+  font-weight: 700; line-height: 1.15;
 }
+.hero__logo { width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto; }
 .hero__title-line {
   display: block; width: 60px; height: 2px; background: var(--accent);
   margin: 1.2rem auto;
