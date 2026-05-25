@@ -411,7 +411,7 @@
       </div>
       <div class="form__group"><label>目标阶段 *</label><select name="target" required><option value="">请选择</option><option>语言学校</option><option>本科</option><option>研究生</option><option>艺术留学</option><option>SGU英文项目</option><option>其他</option></select><span class="form__error"></span></div>
       <div class="form__group"><label>留言</label><textarea name="message" rows="3" placeholder="学历 · 日语水平 · 目标专业 · 预算..."></textarea></div>
-      <button type="submit" class="btn btn--gold btn--full">提交咨询 · 免费评估</button>
+      <button type="submit" class="btn btn--gold btn--full" onclick="window._submitContact&&window._submitContact(event)">提交咨询 · 免费评估</button>
     </form>
   </div>
   <div class="toast" id="toast"></div>
@@ -466,3 +466,4 @@
 <script src="main.js"></script>
 </body>
 </html>
+ 
