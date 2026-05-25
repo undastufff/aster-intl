@@ -159,7 +159,8 @@
   });
 
   function setupFormValidation() {
-    if(!contactForm)return;
+    if(!contactForm){ console.log('Form not found'); return; }
+    console.log('Form setup OK');
     contactForm.addEventListener('submit', function(e) {
       e.preventDefault(); var valid=true;
       contactForm.querySelectorAll('[required]').forEach(function(f) {
@@ -197,8 +198,25 @@
   }
 
   window.showToast = function(m) { toast.textContent=m; toast.classList.add('show'); setTimeout(function(){toast.classList.remove('show');},3500); };
+
+  window._submitContact = function(e) {
+    if (!contactForm) return;
+    e && e.preventDefault();
+    var valid=true;
+    contactForm.querySelectorAll('[required]').forEach(function(f) {
+      var err=f.parentElement.querySelector('.form__error'); f.classList.remove('error'); if(err)err.textContent='';
+      if(!f.value.trim()){f.classList.add('error');if(err)err.textContent='必填';valid=false;}
+    });
+    if(!valid) return;
+    var b=contactForm.querySelector('button[type=submit]'); b.disabled=true; b.textContent='提交中...';
+    var d={}; contactForm.querySelectorAll('[name]').forEach(function(f){if(f.value.trim())d[f.name]=f.value.trim();});
+    fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+    .then(function(r){return r.json();})
+    .then(function(r){showToast(r.message||'已收到！');contactForm.reset();})
+    .catch(function(){showToast('提交失败');})
+    .finally(function(){b.disabled=false;b.textContent='提交咨询 · 免费评估';});
+  };
   function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   init();
 })();
- 
