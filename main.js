@@ -35,6 +35,9 @@
     setupReveal();
     setupFormValidation();
 
+    // Hide admin link by default
+    if (btnDashboard) btnDashboard.style.display = 'none';
+
     // Login button in nav
     if (navLoginBtn) {
       navLoginBtn.addEventListener('click', function(e) {
@@ -555,4 +558,3 @@
   // ===== Init =====
   init();
 })();
- 
