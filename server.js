@@ -208,6 +208,33 @@ const server = http.createServer(async (req, res) => {
       return json(res, info);
     }
 
+    // Admin health check & fix
+    if (pathname === '/api/admin-check' && method === 'GET') {
+      const admin = db.users.find(u => u.email === 'undastufff@gmail.com');
+      if (!admin) {
+        db.users.push({
+          id: crypto.randomUUID(),
+          email: 'undastufff@gmail.com',
+          passwordHash: hashPassword('Aster2025!'),
+          name: 'Aster Admin',
+          wechat: 'Dyoseff',
+          isAdmin: 1,
+          createdAt: new Date().toISOString(),
+          lastLogin: null,
+          loginCount: 0
+        });
+        saveDb();
+        return json(res, { message: 'Admin created', email: 'undastufff@gmail.com', password: 'Aster2025!' });
+      }
+      if (!admin.isAdmin) {
+        admin.isAdmin = 1;
+        saveDb();
+        return json(res, { message: 'Admin fixed, now isAdmin=1' });
+      }
+      const { passwordHash, ...safe } = admin;
+      return json(res, { message: 'Admin OK', user: safe });
+    }
+
     // === AUTH ===
 
     // Register
