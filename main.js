@@ -258,6 +258,8 @@
 
     // Load users
     loadUserList();
+    // Load contacts
+    loadContactList();
   }
 
   function loadUserList(search) {
@@ -281,6 +283,32 @@
       }).join('');
     }).catch(function (err) {
       console.error('Users error:', err);
+    });
+  }
+
+  function loadContactList() {
+    var token = AsterAPI.getToken();
+    if (!token) return;
+    fetch('/api/admin/contacts?limit=100', { headers: { 'Authorization': 'Bearer ' + token } })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var tbody = document.getElementById('adminContactList');
+      if (!tbody) return;
+      if (!data.contacts || !data.contacts.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#666">暂无咨询记录</td></tr>';
+        return;
+      }
+      tbody.innerHTML = data.contacts.map(function(c) {
+        return '<tr>' +
+          '<td>' + esc(c.name) + '</td>' +
+          '<td>' + esc(c.contact) + '</td>' +
+          '<td>' + esc(c.target) + '</td>' +
+          '<td>' + esc(c.message || '-') + '</td>' +
+          '<td>' + esc(formatDate(c.createdAt)) + '</td>' +
+          '</tr>';
+      }).join('');
+    }).catch(function(err) {
+      console.error('Contacts error:', err);
     });
   }
 
@@ -312,6 +340,28 @@
         showToast('导出失败');
       });
     });
+
+    // Export contacts CSV
+    var btnExportContacts = document.getElementById('btnExportContacts');
+    if (btnExportContacts) {
+      btnExportContacts.addEventListener('click', function () {
+        var token = AsterAPI.getToken();
+        if (!token) { showToast('请先登录管理员账号'); return; }
+        fetch('/api/admin/contacts/export', { headers: { 'Authorization': 'Bearer ' + token } })
+        .then(function(res) {
+          if (!res.ok) throw new Error('导出失败');
+          return res.blob();
+        }).then(function(blob) {
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'aster-contacts-' + new Date().toISOString().split('T')[0] + '.csv';
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast('导出成功');
+        }).catch(function() { showToast('导出失败'); });
+      });
+    }
   }
 
   function renderTargetChart(data) {
@@ -416,8 +466,31 @@
       });
 
       if (valid) {
-        showToast('已收到！我们会在24小时内联系你 🎌');
-        contactForm.reset();
+        var btn = contactForm.querySelector('button[type=submit]');
+        btn.disabled = true; btn.textContent = '提交中...';
+
+        var data = {};
+        contactForm.querySelectorAll('[name]').forEach(function(f) {
+          if (f.value.trim()) data[f.name] = f.value.trim();
+        });
+
+        fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(function(r) { return r.json(); })
+        .then(function(resp) {
+          if (resp.error) {
+            showToast(resp.error);
+          } else {
+            showToast(resp.message || '已收到！我们会在24小时内联系你 🎌');
+            contactForm.reset();
+          }
+        }).catch(function() {
+          showToast('提交失败，请稍后重试');
+        }).finally(function() {
+          btn.disabled = false; btn.textContent = '提交咨询 · 免费评估';
+        });
       }
     });
 
