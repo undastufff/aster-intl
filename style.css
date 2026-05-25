@@ -408,7 +408,6 @@ img { max-width: 100%; display: block; }
   transition: all 0.2s;
 }
 .nav__user-dropdown a:hover { background: rgba(255,255,255,0.04); color: var(--text); }
-#btnDashboard { display: none; }
 
 /* ===== Modal ===== */
 .modal { position: fixed; inset: 0; z-index: 5000; display: none; align-items: center; justify-content: center; }
