@@ -1,0 +1,6 @@
+{
+  "name": "aster-intl",
+  "scripts": {
+    "start": "node server/server.js"
+  }
+}
