@@ -206,8 +206,20 @@
 
   btnProfile.addEventListener('click', function (e) {
     e.preventDefault();
-    openAuthModal('login'); // Simplified: could be a profile page
-    showToast('个人资料功能开发中');
+    var user = AsterAPI.getUser();
+    if (!user) { openAuthModal('login'); return; }
+    navUserDropdown.classList.remove('show');
+    // Show profile info
+    var info = [];
+    if (user.name) info.push('👤 姓名：' + user.name);
+    if (user.email) info.push('📧 邮箱：' + user.email);
+    if (user.wechat) info.push('💬 微信：' + user.wechat);
+    if (user.phone) info.push('📱 手机：' + user.phone);
+    if (user.targetStage) info.push('🎯 目标：' + user.targetStage);
+    if (user.education) info.push('🎓 学历：' + user.education);
+    var msg = info.join('\n') || '暂无个人资料';
+    if (user.isAdmin) msg += '\n\n🔑 管理员权限已激活';
+    alert(msg);
   });
 
   btnDashboard.addEventListener('click', function (e) {
