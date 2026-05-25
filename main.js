@@ -240,7 +240,7 @@
     var user = AsterAPI.getUser();
     if (user) {
       isLoggedIn = true;
-      isAdmin = !!user.is_admin;
+      isAdmin = !!user.isAdmin;
       navUser.style.display = 'block';
       if (navLoginBtn) navLoginBtn.style.display = 'none';
       navUserName.textContent = user.name || user.email.split('@')[0];
@@ -555,3 +555,4 @@
   // ===== Init =====
   init();
 })();
+ 
