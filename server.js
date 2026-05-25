@@ -107,7 +107,8 @@ function serveStatic(req, res) {
 
   // Remove leading slash for relative path
   const relativePath = urlPath.startsWith('/') ? urlPath.slice(1) : urlPath;
-  const filePath = path.join(process.cwd(), relativePath);
+  const ROOT = path.join(__dirname, '..');
+  const filePath = path.join(ROOT, relativePath);
 
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME[ext] || 'application/octet-stream';
@@ -119,7 +120,7 @@ function serveStatic(req, res) {
     if (err) {
       console.log('[Static] Not found:', filePath);
       // SPA fallback
-      const htmlPath = path.join(process.cwd(), 'index.html');
+      const htmlPath = path.join(ROOT, 'index.html');
       fs.readFile(htmlPath, (err2, html) => {
         if (err2) { res.writeHead(404); res.end('Not Found'); return; }
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
