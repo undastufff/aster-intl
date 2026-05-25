@@ -1,1 +1,590 @@
-Not Found
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aster International — 日本留学 · 专注卓越</title>
+  <meta name="description" content="Aster International 雅斯特国际教育 — 专注日本留学咨询。语言学校、本科、研究生、艺术留学、SGU英文项目一站式服务。东京大阪京都名校直通车。">
+
+  <!-- Open Graph / WeChat -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Aster International — 日本留学 · 专注卓越">
+  <meta property="og:description" content="语言学校 · 本科 · 研究生 · 艺术留学 · SGU英文项目。你的日本留学第一步。">
+  <meta property="og:image" content="https://aster-intl.onrender.com/share.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://aster-intl.onrender.com">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__logo">
+        <span class="nav__logo-icon">✦</span>
+        <span>ASTER</span>
+      </a>
+      <button class="nav__toggle" id="navToggle" aria-label="メニュー">
+        <span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#services">服务</a></li>
+        <li><a href="#why">优势</a></li>
+        <li><a href="#process">流程</a></li>
+        <li><a href="#results">案例</a></li>
+        <li><a href="#contact">咨询</a></li>
+        <li><a href="#" id="navLoginBtn">登录</a></li>
+      </ul>
+      <div class="nav__user" id="navUser" style="display:none">
+        <button class="nav__user-btn" id="navUserBtn">
+          <span class="nav__user-avatar" id="navUserAvatar"></span>
+          <span id="navUserName"></span>
+          <svg width="12" height="6" viewBox="0 0 12 6"><path d="M1 1l5 4 5-4" stroke="currentColor" fill="none" stroke-width="1.5"/></svg>
+        </button>
+        <div class="nav__user-dropdown" id="navUserDropdown">
+          <a href="#" id="btnDashboard">📊 管理后台</a>
+          <a href="#" id="btnProfile">👤 个人资料</a>
+          <a href="#" id="btnLogout">🚪 退出登录</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Auth Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal__backdrop" id="authModalBackdrop"></div>
+    <div class="modal__content">
+      <button class="modal__close" id="authModalClose">&times;</button>
+      <div class="auth">
+        <div class="auth__tabs">
+          <button class="auth__tab active" data-tab="login">登录</button>
+          <button class="auth__tab" data-tab="register">注册</button>
+        </div>
+        <form class="auth__form" id="loginForm">
+          <h3>欢迎回来</h3>
+          <p>登录后查看你的留学评估和进度</p>
+          <div class="form__group">
+            <label>邮箱</label>
+            <input type="email" name="email" required placeholder="your@email.com">
+            <span class="form__error"></span>
+          </div>
+          <div class="form__group">
+            <label>密码</label>
+            <input type="password" name="password" required placeholder="输入密码">
+            <span class="form__error"></span>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">登录</button>
+          <p class="auth__alt">还没有账号？<a href="#" class="auth__switch" data-target="register">立即注册</a></p>
+        </form>
+        <form class="auth__form" id="registerForm" style="display:none">
+          <h3>创建账号</h3>
+          <p>开始你的日本留学规划之旅</p>
+          <div class="form__row">
+            <div class="form__group">
+              <label>姓名 <span>*</span></label>
+              <input type="text" name="name" required placeholder="你的姓名">
+              <span class="form__error"></span>
+            </div>
+            <div class="form__group">
+              <label>邮箱 <span>*</span></label>
+              <input type="email" name="email" required placeholder="your@email.com">
+              <span class="form__error"></span>
+            </div>
+          </div>
+          <div class="form__group">
+            <label>密码 <span>*</span>（至少6位）</label>
+            <input type="password" name="password" required minlength="6" placeholder="设置密码">
+            <span class="form__error"></span>
+          </div>
+          <div class="form__group">
+            <label>微信</label>
+            <input type="text" name="wechat" placeholder="微信号（选填）">
+          </div>
+          <div class="form__group">
+            <label>目标阶段</label>
+            <select name="targetStage">
+              <option value="">请选择</option>
+              <option>语言学校</option><option>本科</option><option>研究生</option>
+              <option>艺术留学</option><option>SGU英文项目</option><option>就职</option><option>其他</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">注册</button>
+          <p class="auth__alt">已有账号？<a href="#" class="auth__switch" data-target="login">去登录</a></p>
+        </form>
+        <div class="auth__error" id="authError" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero" id="hero">
+    <div class="hero__bg">
+      <div class="hero__texture"></div>
+      <div class="hero__circle hero__circle--1"></div>
+      <div class="hero__circle hero__circle--2"></div>
+      <div class="hero__circle hero__circle--3"></div>
+      <div class="hero__wave">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 L1440,120 L0,120 Z"/></svg>
+      </div>
+    </div>
+    <div class="hero__content">
+      <div class="hero__kicker">ASTER INTERNATIONAL</div>
+      <h1 class="hero__title">
+        <span class="hero__title-cn">
+          <svg class="hero__logo" viewBox="0 0 520 80" width="520" height="80">
+            <text x="260" y="62" text-anchor="middle" font-family="Georgia, 'Songti SC', serif" font-size="68" font-weight="700" fill="#e8e4df" letter-spacing="16">ASTER</text>
+          </svg>
+        </span>
+        <span class="hero__title-line"></span>
+        <span class="hero__title-en">A Step Toward Tomorrow</span>
+      </h1>
+      <p class="hero__desc">東京 · 大阪 · 京都 · 名古屋<br>语言学校 · 本科 · 研究生 · 艺术 · SGU</p>
+      <div class="hero__actions">
+        <a href="#contact" class="btn btn--primary">免费咨询</a>
+        <a href="#services" class="btn btn--ghost">了解服务</a>
+      </div>
+    </div>
+    <div class="hero__scroll" id="heroScroll">
+      <span>Scroll</span>
+      <svg width="20" height="30" viewBox="0 0 20 30"><rect x="1" y="1" width="18" height="28" rx="9" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" fill="currentColor"><animate attributeName="cy" values="10;18;10" dur="2s" repeatCount="indefinite"/></circle></svg>
+    </div>
+  </header>
+
+  <!-- Services -->
+  <section class="services" id="services">
+    <div class="section-head">
+      <span class="section-head__kicker">— 01</span>
+      <h2 class="section-head__title">服务项目</h2>
+      <p class="section-head__sub">全方位日本留学解决方案</p>
+    </div>
+
+    <div class="services__grid">
+      <div class="service-card reveal">
+        <div class="service-card__icon">
+          <svg viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="32" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="6" y1="16" x2="42" y2="16" stroke="currentColor" stroke-width="1"/><circle cx="24" cy="28" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3>语言学校</h3>
+        <p>精选优良校 · 0中介费<br>在留资格申请 · 住宿安排 · 赴日后全程支援</p>
+        <ul class="service-card__tags">
+          <li>1月/4月/7月/10月入学</li>
+          <li>优良校100%通过率</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-card__icon">
+          <svg viewBox="0 0 48 48"><path d="M8 36V12l16-6 16 6v24L24 42 8 36z" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="24" y1="12" x2="24" y2="24" stroke="currentColor" stroke-width="1.5"/><line x1="16" y1="18" x2="32" y2="18" stroke="currentColor" stroke-width="1"/></svg>
+        </div>
+        <h3>本科 · 研究生</h3>
+        <p>学部/修士/博士全覆盖<br>研究计划书指导 · 教授套磁 · 校内考对策</p>
+        <ul class="service-card__tags">
+          <li>东大/京大/早庆等名校</li>
+          <li>研究生预科申请</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-card__icon">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="18" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 40c0-8 5.4-12 12-12s12 4 12 12" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="16" r="1.5" fill="currentColor"/><circle cx="28" cy="16" r="1.5" fill="currentColor"/></svg>
+        </div>
+        <h3>艺术留学</h3>
+        <p>美术 · 音乐 · 设计 · 映像<br>作品集辅导 · 教授推荐 · 入试实技训练</p>
+        <ul class="service-card__tags">
+          <li>多摩美/武藏美/东京艺大</li>
+          <li>日本名师一对一</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-card__icon">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="24" y1="6" x2="24" y2="12" stroke="currentColor" stroke-width="2"/><line x1="24" y1="36" x2="24" y2="42" stroke="currentColor" stroke-width="2"/><line x1="6" y1="24" x2="12" y2="24" stroke="currentColor" stroke-width="2"/><line x1="36" y1="24" x2="42" y2="24" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <h3>SGU 英文项目</h3>
+        <p>无需日语 · 全英文授课<br>托福/雅思成绩直接申请日本顶尖大学</p>
+        <ul class="service-card__tags">
+          <li>东大PEAK/早大SILS等</li>
+          <li>文书写作深度辅导</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-card__icon">
+          <svg viewBox="0 0 48 48"><rect x="8" y="6" width="32" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="14" x2="40" y2="14" stroke="currentColor" stroke-width="1"/><circle cx="17" cy="28" r="2" fill="currentColor"/><rect x="22" y="24" width="18" height="2" rx="1" fill="currentColor"/><rect x="22" y="30" width="12" height="2" rx="1" fill="currentColor" opacity="0.5"/></svg>
+        </div>
+        <h3>签证 · 生活支援</h3>
+        <p>留学签证 · 家族滞在 · 资格外活动<br>租房 · 手机 · 银行开户 · 国民健康保险</p>
+        <ul class="service-card__tags">
+          <li>赴日前中后全链条覆盖</li>
+          <li>日本当地团队对接</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-card__icon">
+          <svg viewBox="0 0 48 48"><path d="M24 4v40M4 24h40" stroke="currentColor" stroke-width="1.5"/><circle cx="24" cy="24" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="24" cy="24" r="4" fill="currentColor"/></svg>
+        </div>
+        <h3>就职支援</h3>
+        <p>日本就职活动全面指导<br>ES修改 · 面试模拟 · インターン推荐</p>
+        <ul class="service-card__tags">
+          <li>新卒/中途採用对策</li>
+          <li>高度人才签证规划</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Japan -->
+  <section class="why" id="why">
+    <div class="why__bg">
+      <div class="why__texture"></div>
+    </div>
+    <div class="section-head section-head--light">
+      <span class="section-head__kicker">— 02</span>
+      <h2 class="section-head__title">为什么选择日本</h2>
+      <p class="section-head__sub">あなたの未来はここにある</p>
+    </div>
+
+    <div class="why__grid">
+      <div class="why__stat reveal">
+        <span class="why__stat-number" data-count="34">0</span>
+        <span class="why__stat-unit">万+</span>
+        <p>在日留学生总数</p>
+      </div>
+      <div class="why__stat reveal">
+        <span class="why__stat-number" data-count="11">0</span>
+        <span class="why__stat-unit">所</span>
+        <p>世界TOP200大学</p>
+      </div>
+      <div class="why__stat reveal">
+        <span class="why__stat-number" data-count="97">0</span>
+        <span class="why__stat-unit">%</span>
+        <p>留学生就业率</p>
+      </div>
+    </div>
+
+    <div class="why__features">
+      <div class="why__feature reveal">
+        <div class="why__feature-num">01</div>
+        <h4>教育强国</h4>
+        <p>28位诺贝尔奖得主。高等教育质量亚洲第一，学历全球认可。国公立大学学费减免制度完善。</p>
+      </div>
+      <div class="why__feature reveal">
+        <div class="why__feature-num">02</div>
+        <h4>性价比高</h4>
+        <p>国公立大学学费约¥53万/年，仅为欧美的1/3。奖学金种类丰富，留学生可合法打工。</p>
+      </div>
+      <div class="why__feature reveal">
+        <div class="why__feature-num">03</div>
+        <h4>安全便利</h4>
+        <p>全球最安全国家之一。地理位置近，文化亲近感强。国民健康保险覆盖全体留学生。</p>
+      </div>
+      <div class="why__feature reveal">
+        <div class="why__feature-num">04</div>
+        <h4>前景广阔</h4>
+        <p>日本严重缺人。留学生就职率97%。高度人才签证最快1年拿永住。回国发展竞争力强。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="process" id="process">
+    <div class="section-head">
+      <span class="section-head__kicker">— 03</span>
+      <h2 class="section-head__title">申请流程</h2>
+      <p class="section-head__sub">透明 · 高效 · 全程陪伴</p>
+    </div>
+
+    <div class="process__timeline">
+      <div class="process__step reveal">
+        <div class="process__step-marker"><span>1</span></div>
+        <div class="process__step-content">
+          <h4>免费评估</h4>
+          <p>提交基本信息，顾问48小时内出具专属留学评估报告。包含学校推荐、时间规划和费用预估。</p>
+        </div>
+      </div>
+      <div class="process__step reveal">
+        <div class="process__step-marker"><span>2</span></div>
+        <div class="process__step-content">
+          <h4>签约规划</h4>
+          <p>确定目标院校，制定详细申请时间表。分配专属顾问和文书导师，建立微信专属服务群。</p>
+        </div>
+      </div>
+      <div class="process__step reveal">
+        <div class="process__step-marker"><span>3</span></div>
+        <div class="process__step-content">
+          <h4>材料准备</h4>
+          <p>文书撰写 · 研究计划打磨 · 作品集辅导 · 面试特训。所有材料日本native speaker润色。</p>
+        </div>
+      </div>
+      <div class="process__step reveal">
+        <div class="process__step-marker"><span>4</span></div>
+        <div class="process__step-content">
+          <h4>出愿 · 考试</h4>
+          <p>出愿书类精查 · 校内考对策 · 面试模拟。与教授事前联络，提高内诺率。</p>
+        </div>
+      </div>
+      <div class="process__step reveal">
+        <div class="process__step-marker"><span>5</span></div>
+        <div class="process__step-content">
+          <h4>在留 · 签证</h4>
+          <p>在留资格认定证明书申请 · 留学签证办理 · 宿舍申请 · 赴日前说明会。</p>
+        </div>
+      </div>
+      <div class="process__step reveal">
+        <div class="process__step-marker"><span>6</span></div>
+        <div class="process__step-content">
+          <h4>赴日 · 后续</h4>
+          <p>接机 · 区役所登记 · 银行开户 · 手机签约。入学后定期回访，升学/就职持续支持。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="results" id="results">
+    <div class="results__bg"></div>
+    <div class="section-head section-head--light">
+      <span class="section-head__kicker">— 04</span>
+      <h2 class="section-head__title">录取实绩</h2>
+      <p class="section-head__sub">数字会说话</p>
+    </div>
+
+    <div class="results__grid">
+      <div class="results__stat reveal">
+        <span class="results__stat-big" data-count="100">0</span><span class="results__stat-unit">%</span>
+        <p>在留资格通过率</p>
+      </div>
+      <div class="results__stat reveal">
+        <span class="results__stat-big" data-count="500">0</span><span class="results__stat-unit">+</span>
+        <p>累计合格学生</p>
+      </div>
+      <div class="results__stat reveal">
+        <span class="results__stat-big" data-count="50">0</span><span class="results__stat-unit">+</span>
+        <p>合作日本院校</p>
+      </div>
+    </div>
+
+    <div class="results__schools reveal">
+      <h4>合格実績校</h4>
+      <div class="results__schools-grid">
+        <span>東京大学</span><span>京都大学</span><span>大阪大学</span>
+        <span>早稲田大学</span><span>慶應義塾大学</span><span>東京工業大学</span>
+        <span>一橋大学</span><span>東北大学</span><span>名古屋大学</span>
+        <span>多摩美術大学</span><span>武蔵野美術大学</span><span>東京藝術大学</span>
+        <span>上智大学</span><span>明治大学</span><span>立教大学</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <div class="section-head">
+      <span class="section-head__kicker">— 05</span>
+      <h2 class="section-head__title">学子心声</h2>
+      <p class="section-head__sub">一人ひとりの物語</p>
+    </div>
+
+    <div class="testimonials__grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p class="testimonial-card__text">老师从择校到出愿全程把关，研究计划书改了7版，每版都让我醍醐灌顶。现在已经在东大读修士了，感谢Aster！</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar" style="background:linear-gradient(135deg,#1a237e,#4a148c)"></div>
+          <div>
+            <strong>陈同学</strong>
+            <span>東京大学 · 情报理工</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p class="testimonial-card__text">零基础学日语，到拿到武藏美offer只用了14个月。作品集辅导的老师本身就是武藏美出身，特别懂教授要什么。</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar" style="background:linear-gradient(135deg,#b71c1c,#e65100)"></div>
+          <div>
+            <strong>林同学</strong>
+            <span>武蔵野美術大学 · 视觉传达</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p class="testimonial-card__text">SGU申请真的需要一个懂行的团队。Aster帮我选了最适合的学校和教授，文书写得让我自己都感动。早稻田全奖。</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar" style="background:linear-gradient(135deg,#004d40,#1b5e20)"></div>
+          <div>
+            <strong>王同学</strong>
+            <span>早稲田大学 · SILS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="contact__bg"></div>
+    <div class="section-head section-head--light">
+      <span class="section-head__kicker">— 06</span>
+      <h2 class="section-head__title">开始你的日本留学</h2>
+      <p class="section-head__sub">無料相談 · お気軽にどうぞ</p>
+    </div>
+
+    <div class="contact__grid">
+      <div class="contact__info">
+        <div class="contact__info-card reveal">
+          <div class="contact__qrcode" id="qrcode">
+            <svg viewBox="0 0 160 160"><rect width="160" height="160" fill="#fff"/><g fill="#111"><rect x="10" y="10" width="40" height="40"/><rect x="10" y="110" width="40" height="40"/><rect x="110" y="10" width="40" height="40"/><rect x="110" y="110" width="40" height="40"/></g></svg>
+          </div>
+          <p class="contact__qrcode-label">扫码添加微信咨询</p>
+          <p class="contact__wechat">WeChat: AsterEdu_JP</p>
+        </div>
+        <p class="contact__desc reveal">东京 · 上海 双拠点<br>日本全国200+学校対応<br>年中無休 · 24時間以内返信</p>
+      </div>
+
+      <form class="contact__form reveal" id="contactForm">
+        <div class="form__row">
+          <div class="form__group">
+            <label>姓名 <span>*</span></label>
+            <input type="text" name="name" required placeholder="你的姓名">
+            <span class="form__error"></span>
+          </div>
+          <div class="form__group">
+            <label>手机/微信 <span>*</span></label>
+            <input type="text" name="contact" required placeholder="手机号或微信号">
+            <span class="form__error"></span>
+          </div>
+        </div>
+        <div class="form__group">
+          <label>目标阶段 <span>*</span></label>
+          <select name="target" required>
+            <option value="">请选择</option>
+            <option>语言学校</option>
+            <option>本科（学部）</option>
+            <option>研究生（修士/博士）</option>
+            <option>艺术留学</option>
+            <option>SGU英文项目</option>
+            <option>就职</option>
+            <option>其他</option>
+          </select>
+          <span class="form__error"></span>
+        </div>
+        <div class="form__group">
+          <label>简单说一下你的情况</label>
+          <textarea name="message" rows="4" placeholder="学历背景 · 日语/英语水平 · 目标专业 · 预算 · 计划入学时间..."></textarea>
+          <span class="form__error"></span>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">提交咨询 · 免费评估</button>
+      </form>
+    </div>
+
+    <div class="toast" id="toast">已收到！我们会在24小时内联系你 🎌</div>
+  </section>
+
+  <!-- Admin Dashboard (hidden by default) -->
+  <section class="admin" id="adminDashboard" style="display:none">
+    <div class="section-head">
+      <span class="section-head__kicker">— ADMIN</span>
+      <h2 class="section-head__title">管理后台</h2>
+      <p class="section-head__sub">用户数据分析</p>
+    </div>
+
+    <div class="admin__stats" id="adminStats">
+      <div class="admin__stat"><span class="admin__stat-num" id="statTotal">-</span><span>总注册用户</span></div>
+      <div class="admin__stat"><span class="admin__stat-num" id="statToday">-</span><span>今日新增</span></div>
+      <div class="admin__stat"><span class="admin__stat-num" id="statWeek">-</span><span>本周新增</span></div>
+      <div class="admin__stat"><span class="admin__stat-num" id="statActive">-</span><span>今日活跃</span></div>
+    </div>
+
+    <div class="admin__charts">
+      <div class="admin__chart">
+        <h4>用户目标阶段分布</h4>
+        <div id="chartTarget"></div>
+      </div>
+      <div class="admin__chart">
+        <h4>最近30天注册趋势</h4>
+        <div id="chartDaily"></div>
+      </div>
+    </div>
+
+    <div class="admin__users">
+      <div class="admin__users-header">
+        <h4>用户列表</h4>
+        <div>
+          <input type="text" id="adminSearch" placeholder="搜索姓名/邮箱/微信..." class="admin__search">
+          <button class="btn btn--primary btn--sm" id="btnExport">导出CSV</button>
+        </div>
+      </div>
+      <div class="admin__table-wrap">
+        <table class="admin__table">
+          <thead>
+            <tr><th>姓名</th><th>邮箱</th><th>微信</th><th>目标</th><th>学历</th><th>来源</th><th>注册时间</th><th>登录次数</th></tr>
+          </thead>
+          <tbody id="adminUserList"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Contact Inquiries -->
+    <div class="admin__users" style="margin-top:2rem">
+      <div class="admin__users-header">
+        <h4>📩 咨询记录</h4>
+        <button class="btn btn--primary btn--sm" id="btnExportContacts">导出咨询CSV</button>
+      </div>
+      <div class="admin__table-wrap">
+        <table class="admin__table">
+          <thead>
+            <tr><th>姓名</th><th>联系方式</th><th>目标阶段</th><th>留言</th><th>提交时间</th></tr>
+          </thead>
+          <tbody id="adminContactList"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mnav" id="mobileNav">
+    <a href="#hero" class="mnav__item active"><span>🏠</span><span>首页</span></a>
+    <a href="#services" class="mnav__item"><span>📋</span><span>服务</span></a>
+    <a href="#process" class="mnav__item"><span>🔄</span><span>流程</span></a>
+    <a href="#contact" class="mnav__item"><span>💬</span><span>咨询</span></a>
+    <a href="#" class="mnav__item" id="mnavAccount"><span>👤</span><span>我的</span></a>
+  </nav>
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <div class="footer__logo">✦ ASTER</div>
+        <p>Aster International Education<br>雅斯特国际教育 · 日本留学専門</p>
+      </div>
+      <div class="footer__links">
+        <div>
+          <h5>服务</h5>
+          <a href="#services">语言学校</a>
+          <a href="#services">本科·研究生</a>
+          <a href="#services">艺术留学</a>
+          <a href="#services">SGU项目</a>
+        </div>
+        <div>
+          <h5>联系</h5>
+          <a href="#contact">免费咨询</a>
+          <a href="#">WeChat: AsterEdu_JP</a>
+          <a href="#">info@aster-edu.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; 2025 Aster International Education. All rights reserved.</p>
+      <p class="footer__jp">アスター国際教育 · あなたの未来を照らす</p>
+    </div>
+  </footer>
+
+  <script src="api.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
+ 
