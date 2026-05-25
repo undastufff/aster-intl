@@ -104,11 +104,17 @@ const MIME = {
 function serveStatic(req, res) {
   let urlPath = req.url.split('?')[0];
   if (urlPath === '/') urlPath = '/index.html';
-
-  // Remove leading slash for relative path
   const relativePath = urlPath.startsWith('/') ? urlPath.slice(1) : urlPath;
-  const ROOT = path.join(__dirname, '..');
-  const filePath = path.join(ROOT, relativePath);
+
+  // Try both possible roots: same dir (Render) and parent dir (local)
+  const roots = [__dirname, path.join(__dirname, '..')];
+  let filePath;
+
+  for (const r of roots) {
+    const candidate = path.join(r, relativePath);
+    if (fs.existsSync(candidate)) { filePath = candidate; break; }
+  }
+  if (!filePath) filePath = path.join(roots[0], relativePath);
 
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME[ext] || 'application/octet-stream';
@@ -120,7 +126,7 @@ function serveStatic(req, res) {
     if (err) {
       console.log('[Static] Not found:', filePath);
       // SPA fallback
-      const htmlPath = path.join(ROOT, 'index.html');
+      const htmlPath = path.join(roots[0], 'index.html');
       fs.readFile(htmlPath, (err2, html) => {
         if (err2) { res.writeHead(404); res.end('Not Found'); return; }
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -197,7 +203,7 @@ const server = http.createServer(async (req, res) => {
 
     // Debug filesystem
     if (pathname === '/api/debug' && method === 'GET') {
-      const roots = [process.cwd(), path.join(__dirname, '..')];
+      const roots = [__dirname, path.join(__dirname, '..')];
       const info = { roots, files: {} };
       roots.forEach(r => {
         try {
