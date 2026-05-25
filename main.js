@@ -26,6 +26,7 @@
   var contactForm = document.getElementById('contactForm');
   var toast = document.getElementById('toast');
   var mnavAccount = document.getElementById('mnavAccount');
+  var navLoginBtn = document.getElementById('navLoginBtn');
 
   // ===== Initialize =====
   function init() {
@@ -33,6 +34,14 @@
     setupSmoothScroll();
     setupReveal();
     setupFormValidation();
+
+    // Login button in nav
+    if (navLoginBtn) {
+      navLoginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openAuthModal('login');
+      });
+    }
 
     // Try to restore session
     if (AsterAPI.getToken()) {
@@ -221,6 +230,7 @@
       isLoggedIn = true;
       isAdmin = !!user.is_admin;
       navUser.style.display = 'block';
+      if (navLoginBtn) navLoginBtn.style.display = 'none';
       navUserName.textContent = user.name || user.email.split('@')[0];
       navUserAvatar.textContent = (user.name || user.email)[0].toUpperCase();
       btnDashboard.style.display = isAdmin ? 'block' : 'none';
@@ -228,6 +238,7 @@
       isLoggedIn = false;
       isAdmin = false;
       navUser.style.display = 'none';
+      if (navLoginBtn) navLoginBtn.style.display = '';
       btnDashboard.style.display = 'none';
       adminDashboard.style.display = 'none';
     }
