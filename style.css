@@ -16,7 +16,8 @@ button{cursor:pointer;font-family:var(--f)}
 
 .nav{position:sticky;top:0;z-index:1000;background:rgba(10,22,40,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
 .nav__inner{max-width:var(--mx);margin:0 auto;padding:0 1.5rem;height:64px;display:flex;align-items:center;justify-content:space-between}
-.nav__logo{display:flex;align-items:center;gap:10px}
+.nav__logo{display:flex;align-items:center;gap:10px;min-width:188px}
+.nav__logo-img{display:block;width:188px;height:auto;max-height:46px}
 .nav__logo-svg{flex-shrink:0}
 .nav__brand{font-family:var(--fe);font-weight:700;font-size:1.05rem;letter-spacing:3px;color:var(--w)}
 .nav__brand-sub{font-weight:400;font-size:.65rem;letter-spacing:1px;color:var(--td);font-family:var(--f)}
@@ -106,3 +107,4 @@ button{cursor:pointer;font-family:var(--f)}
 .discover__card:hover{border-color:var(--g);transform:translateY(-3px)}
 @media(max-width:1024px){.quick{grid-template-columns:repeat(2,1fr);margin-top:0;padding-top:1rem}.discover__grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.quick,.discover__grid{grid-template-columns:1fr}.quick{padding-left:1rem;padding-right:1rem}.footer__inner{grid-template-columns:1fr}.hero__h1-main{letter-spacing:8px}}
+@media(max-width:480px){.nav__logo{min-width:142px}.nav__logo-img{width:142px}.nav__inner{padding:0 1rem}.nav__menu{top:64px}.hero__h1-main{font-size:2.7rem;letter-spacing:6px}}
