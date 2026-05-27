@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
+  <title id="title">Aster logo mark</title>
+  <desc id="desc">A refined Japanese-inspired aster flower and star monogram mark in navy and champagne gold.</desc>
+  <defs>
+    <linearGradient id="gold" x1="24" y1="12" x2="96" y2="108" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1DA9A"/>
+      <stop offset=".48" stop-color="#C8A45C"/>
+      <stop offset="1" stop-color="#8D6A2F"/>
+    </linearGradient>
+    <linearGradient id="navy" x1="14" y1="10" x2="106" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#112747"/>
+      <stop offset="1" stop-color="#060D18"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#navy)"/>
+  <circle cx="60" cy="60" r="43" fill="none" stroke="url(#gold)" stroke-width="2.4" opacity=".92"/>
+  <circle cx="60" cy="60" r="33" fill="none" stroke="#F1DA9A" stroke-width=".8" opacity=".22"/>
+  <g fill="url(#gold)">
+    <path d="M60 18.5c5.9 14.9 4.7 26.6 0 35.3-4.7-8.7-5.9-20.4 0-35.3Z"/>
+    <path d="M101.5 60c-14.9 5.9-26.6 4.7-35.3 0 8.7-4.7 20.4-5.9 35.3 0Z"/>
+    <path d="M60 101.5c-5.9-14.9-4.7-26.6 0-35.3 4.7 8.7 5.9 20.4 0 35.3Z"/>
+    <path d="M18.5 60c14.9-5.9 26.6-4.7 35.3 0-8.7 4.7-20.4 5.9-35.3 0Z"/>
+    <path d="M30.7 30.7c14.7 6.4 22.1 15.5 24.9 25.1-9.6-2.8-18.7-10.2-24.9-25.1Z"/>
+    <path d="M89.3 30.7c-6.4 14.7-15.5 22.1-25.1 24.9 2.8-9.6 10.2-18.7 25.1-24.9Z"/>
+    <path d="M89.3 89.3c-14.7-6.4-22.1-15.5-24.9-25.1 9.6 2.8 18.7 10.2 24.9 25.1Z"/>
+    <path d="M30.7 89.3c6.4-14.7 15.5-22.1 25.1-24.9-2.8 9.6-10.2 18.7-25.1 24.9Z"/>
+  </g>
+  <path d="M60 45.5 68.4 60 60 74.5 51.6 60Z" fill="#F8E6AA"/>
+  <path d="M42 60h36M60 42v36" stroke="#06101D" stroke-width="1.8" stroke-linecap="round" opacity=".38"/>
+  <circle cx="60" cy="60" r="4.4" fill="#06101D"/>
+</svg>
