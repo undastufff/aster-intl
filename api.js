@@ -15,7 +15,11 @@ var AsterAPI = (function () {
     }
   }
 
-  async function request(method, path, body) {
+  function wait(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  async function requestOnce(method, path, body) {
     var opts = {
       method: method,
       headers: { 'Content-Type': 'application/json' }
@@ -27,11 +31,37 @@ var AsterAPI = (function () {
       opts.body = JSON.stringify(body);
     }
     var res = await fetch(BASE + path, opts);
-    var data = await res.json();
+    var data = {};
+    try {
+      data = await res.json();
+    } catch (e) {
+      data = { error: '服务器返回格式异常，请刷新后重试' };
+    }
     if (!res.ok) {
       throw new Error(data.error || '请求失败');
     }
     return data;
+  }
+
+  async function request(method, path, body) {
+    try {
+      return await requestOnce(method, path, body);
+    } catch (err) {
+      var networkError = err && (
+        err.name === 'TypeError' ||
+        /Failed to fetch|NetworkError|Load failed/i.test(err.message || '')
+      );
+      if (!networkError) throw err;
+
+      // Render free instances may need a moment to wake up. Retry once after pinging health.
+      try {
+        await wait(1200);
+        await fetch(BASE + '/health', { cache: 'no-store' });
+        return await requestOnce(method, path, body);
+      } catch (e) {
+        throw new Error('网络连接失败：请刷新页面，或等待 Render 唤醒后再试一次');
+      }
+    }
   }
 
   return {
