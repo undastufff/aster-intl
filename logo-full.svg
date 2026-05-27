@@ -1,31 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 88" role="img" aria-labelledby="title desc">
   <title id="title">Aster International logo</title>
-  <desc id="desc">Aster International wordmark with Japanese-inspired aster monogram.</desc>
+  <desc id="desc">Minimal four-point Aster logo with Apple-inspired spacing and typography.</desc>
   <defs>
-    <linearGradient id="gold" x1="10" y1="4" x2="86" y2="82" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#F1DA9A"/>
-      <stop offset=".5" stop-color="#C8A45C"/>
-      <stop offset="1" stop-color="#8D6A2F"/>
+    <linearGradient id="bg" x1="12" y1="6" x2="76" y2="82" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10213A"/>
+      <stop offset="1" stop-color="#06101D"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="20" y1="14" x2="68" y2="74" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6E4A7"/>
+      <stop offset=".52" stop-color="#C8A45C"/>
+      <stop offset="1" stop-color="#8E6B31"/>
     </linearGradient>
   </defs>
-  <g transform="translate(2 2)">
-    <rect width="84" height="84" rx="22" fill="#0A1628"/>
-    <circle cx="42" cy="42" r="30" fill="none" stroke="url(#gold)" stroke-width="2"/>
-    <g fill="url(#gold)">
-      <path d="M42 11.5c4.5 11.7 3.7 20.6 0 27.6-3.7-7-4.5-15.9 0-27.6Z"/>
-      <path d="M72.5 42c-11.7 4.5-20.6 3.7-27.6 0 7-3.7 15.9-4.5 27.6 0Z"/>
-      <path d="M42 72.5c-4.5-11.7-3.7-20.6 0-27.6 3.7 7 4.5 15.9 0 27.6Z"/>
-      <path d="M11.5 42c11.7-4.5 20.6-3.7 27.6 0-7 3.7-15.9 4.5-27.6 0Z"/>
-      <path d="M20.2 20.2c11.5 5.1 17.2 12 19.5 19.5-7.5-2.3-14.4-8-19.5-19.5Z"/>
-      <path d="M63.8 20.2c-5.1 11.5-12 17.2-19.5 19.5 2.3-7.5 8-14.4 19.5-19.5Z"/>
-      <path d="M63.8 63.8c-11.5-5.1-17.2-12-19.5-19.5 7.5 2.3 14.4 8 19.5 19.5Z"/>
-      <path d="M20.2 63.8c5.1-11.5 12-17.2 19.5-19.5-2.3 7.5-8 14.4-19.5 19.5Z"/>
-    </g>
-    <path d="M42 31.8 48.3 42 42 52.2 35.7 42Z" fill="#F8E6AA"/>
-    <circle cx="42" cy="42" r="3.2" fill="#06101D"/>
+  <g transform="translate(4 4)">
+    <rect width="80" height="80" rx="22" fill="url(#bg)"/>
+    <path d="M40 13.5 48.7 31.3 66.5 40 48.7 48.7 40 66.5 31.3 48.7 13.5 40 31.3 31.3Z" fill="url(#gold)"/>
+    <path d="M40 25.6 44.8 35.2 54.4 40 44.8 44.8 40 54.4 35.2 44.8 25.6 40 35.2 35.2Z" fill="#081321"/>
+    <circle cx="40" cy="40" r="3.6" fill="#F6E4A7"/>
+    <rect x=".75" y=".75" width="78.5" height="78.5" rx="21.25" fill="none" stroke="rgba(246,228,167,.22)" stroke-width="1.5"/>
   </g>
-  <g fill="#F7F3E8">
-    <text x="105" y="43" font-family="Avenir Next, Montserrat, Inter, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="9">ASTER</text>
-    <text x="107" y="65" font-family="Hiragino Sans, Yu Gothic, PingFang SC, Arial, sans-serif" font-size="12" font-weight="500" letter-spacing="4" fill="#C8A45C">国際教育 · JAPAN STUDY</text>
+  <g>
+    <text x="106" y="42" font-family="-apple-system, BlinkMacSystemFont, SF Pro Display, Avenir Next, Inter, Arial, sans-serif" font-size="27" font-weight="650" letter-spacing="8" fill="#F7F3E8">ASTER</text>
+    <text x="108" y="64" font-family="-apple-system, BlinkMacSystemFont, SF Pro Text, Hiragino Sans, PingFang SC, Arial, sans-serif" font-size="11.5" font-weight="500" letter-spacing="3.4" fill="#C8A45C">国際教育 · JAPAN STUDY</text>
   </g>
 </svg>
