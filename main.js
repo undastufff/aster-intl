@@ -26,9 +26,13 @@ var navLoginBtn=document.getElementById('navLoginBtn');
 function init(){
   if(btnDashboard)btnDashboard.style.display='none';
   adminDashboard.style.display='none';
-  setupNav();setupSmoothScroll();setupAuth();setupForm();setupCounters();
+  setupNav();setupSmoothScroll();setupAuth();setupLanguage();setupForm();setupCounters();
   if(navLoginBtn)navLoginBtn.addEventListener('click',function(e){e.preventDefault();openAuth('login');});
-  if(AsterAPI.getToken())AsterAPI.getMe().then(updateAuthUI).catch(function(){AsterAPI.logout();});
+  if(AsterAPI.getToken()){
+    AsterAPI.getMe().then(updateAuthUI).catch(function(){AsterAPI.logout();updateAuthUI();});
+  }else{
+    updateAuthUI();
+  }
 }
 
 function setupNav(){
@@ -37,7 +41,70 @@ function setupNav(){
 }
 
 function setupSmoothScroll(){
-  document.querySelectorAll('a[href^="#"]').forEach(function(l){l.addEventListener('click',function(e){var t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});});
+  document.querySelectorAll('a[href^="#"]').forEach(function(l){l.addEventListener('click',function(e){
+    var href=this.getAttribute('href');
+    if(!href||href==='#')return;
+    var t=null;
+    try{t=document.querySelector(href);}catch(err){return;}
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });});
+}
+
+function setupLanguage(){
+  var langLinks=document.querySelectorAll('[data-lang]');
+  if(!langLinks.length)return;
+  var copy={
+    zh:{
+      htmlLang:'zh-CN',
+      nav:['首页','关于我们','服务项目','合作院校','申请流程','费用参考','最新动态','常见问题'],
+      cta:'免费咨询',loginStrong:'登录/注册',loginEm:'账号中心',userEm:'我的账户',
+      heroLabel:'BEYOND LEARNING — LEADING JAPAN STUDY ABROAD CONSULTANCY',
+      heroSub:'日本留学の全てを、ここから',
+      heroDesc:'東京 · 大阪 · 京都 · 名古屋 ｜ 语言学校 · 本科 · 研究生 · 艺术 · SGU',
+      btn1:'免费留学评估',btn2:'查看全部服务',toast:'已切换为中文'
+    },
+    ja:{
+      htmlLang:'ja',
+      nav:['ホーム','Asterについて','サービス','提携校','申請の流れ','費用目安','ニュース','FAQ'],
+      cta:'無料相談',loginStrong:'ログイン/登録',loginEm:'アカウント',userEm:'マイページ',
+      heroLabel:'BEYOND LEARNING — JAPAN STUDY CONSULTANCY',
+      heroSub:'日本留学のすべてを、ここから',
+      heroDesc:'東京 · 大阪 · 京都 · 名古屋 ｜ 日本語学校 · 学部 · 大学院 · 芸術 · SGU',
+      btn1:'無料相談を予約',btn2:'サービスを見る',toast:'日本語に切り替えました'
+    },
+    en:{
+      htmlLang:'en',
+      nav:['Home','About','Services','Schools','Process','Fees','News','FAQ'],
+      cta:'Free Consultation',loginStrong:'Sign in / Join',loginEm:'Account',userEm:'My Account',
+      heroLabel:'BEYOND LEARNING — LEADING JAPAN STUDY ABROAD CONSULTANCY',
+      heroSub:'Your Japan study path starts here',
+      heroDesc:'Tokyo · Osaka · Kyoto · Nagoya | Language School · Undergraduate · Graduate · Art · SGU',
+      btn1:'Get Free Assessment',btn2:'View Services',toast:'Switched to English'
+    }
+  };
+  function setText(sel,text){var el=document.querySelector(sel);if(el)el.textContent=text;}
+  function applyLang(lang,notify){
+    var c=copy[lang]||copy.zh;
+    document.documentElement.lang=c.htmlLang;
+    langLinks.forEach(function(a){a.classList.toggle('active',a.dataset.lang===lang);});
+    var navItems=document.querySelectorAll('#navMenu>li>a:not(.nav__cta)');
+    c.nav.forEach(function(text,i){if(navItems[i])navItems[i].textContent=text;});
+    setText('.nav__cta',c.cta);
+    setText('#navLoginBtn strong',c.loginStrong);
+    setText('#navLoginBtn em',c.loginEm);
+    setText('.nav__user-copy em',c.userEm);
+    setText('.hero__label',c.heroLabel);
+    setText('.hero__h1-sub',c.heroSub);
+    setText('.hero__desc',c.heroDesc);
+    setText('.hero__btns .btn--gold',c.btn1);
+    setText('.hero__btns .btn--line',c.btn2);
+    try{localStorage.setItem('asterLang',lang);}catch(err){}
+    if(notify&&window.showToast)window.showToast(c.toast);
+  }
+  langLinks.forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();applyLang(this.dataset.lang,true);});});
+  var saved='zh';
+  try{saved=localStorage.getItem('asterLang')||'zh';}catch(err){}
+  applyLang(saved,false);
 }
 
 function openAuth(tab){
