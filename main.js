@@ -112,7 +112,7 @@ function loadAdmin(){
 function loadUsers(s){
   AsterAPI.getUsers({search:s||'',limit:100}).then(function(d){
     var t=document.getElementById('adminUserList');
-    t.innerHTML=d.users.length?d.users.map(function(u){return'<tr><td>'+(u.name||'-')+'</td><td>'+(u.email||'-')+'</td><td>'+(u.wechat||'-')+'</td><td>'+(u.target_stage||'-')+'</td><td>'+(u.createdAt||'').slice(0,10)+'</td></tr>';}).join(''):'<tr><td colspan="5" style="text-align:center;color:#666;padding:2rem">暂无数据</td></tr>';
+    t.innerHTML=d.users.length?d.users.map(function(u){return'<tr><td>'+(u.name||'-')+'</td><td>'+(u.email||'-')+'</td><td>'+(u.wechat||'-')+'</td><td>'+(u.targetStage||u.target_stage||'-')+'</td><td>'+(u.createdAt||'').slice(0,10)+'</td></tr>';}).join(''):'<tr><td colspan="5" style="text-align:center;color:#666;padding:2rem">暂无数据</td></tr>';
   }).catch(function(){});
 }
 
@@ -149,7 +149,10 @@ function setupForm(){
     var btn=contactForm.querySelector('button[type=submit]');btn.disabled=true;btn.textContent='提交中...';
     var data={};contactForm.querySelectorAll('[name]').forEach(function(f){if(f.value.trim())data[f.name]=f.value.trim();});
     fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
-    .then(function(r){return r.json();}).then(function(r){showToast(r.message||'已收到！');contactForm.reset();}).catch(function(){showToast('提交失败，请稍后重试');}).finally(function(){btn.disabled=false;btn.textContent='提交咨询 · 免费评估';});
+    .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'提交失败');return j;});})
+    .then(function(r){showToast(r.message||'已收到！');contactForm.reset();})
+    .catch(function(err){showToast(err.message||'提交失败，请稍后重试');})
+    .finally(function(){btn.disabled=false;btn.textContent='提交咨询 · 免费评估';});
   });
   contactForm.querySelectorAll('input,select,textarea').forEach(function(f){f.addEventListener('input',function(){this.classList.remove('error');var e=this.parentElement.querySelector('.field__err');if(e)e.textContent='';});});
 }
@@ -168,4 +171,3 @@ function setupCounters(){
 window.showToast=function(m){toast.textContent=m;toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');},3500);};
 init();
 })();
-  
