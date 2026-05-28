@@ -11,21 +11,21 @@
 <meta property="og:url" content="https://aster-intl.onrender.com">
 <meta name="theme-color" content="#0a1628">
 <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
 <header class="topbar">
   <div class="topbar__inner">
-    <div class="topbar__lang"><a href="#" class="active">中文</a><a href="#">日本語</a><a href="#">EN</a></div>
-    <div class="topbar__info"><span>💬 Dyoseff</span><span>📧 undastufff@gmail.com</span><span>📍 东京 · 上海</span></div>
+    <div class="topbar__lang"><a href="#" class="active" data-lang="zh">中文</a><a href="#" data-lang="ja">日本語</a><a href="#" data-lang="en">EN</a></div>
   </div>
 </header>
 
 <nav class="nav" id="nav">
   <div class="nav__inner">
     <a href="#hero" class="nav__logo" aria-label="Aster International">
-      <img class="nav__logo-img" src="logo-full.svg?v=2" alt="Aster International">
+      <img class="nav__mark" src="logo-mark.svg?v=3" alt="">
+      <span class="nav__wordmark"><strong>ASTER</strong><em>国際教育 · JAPAN STUDY</em></span>
     </a>
     <button class="nav__hamburger" id="navToggle"><span></span><span></span><span></span></button>
     <ul class="nav__menu" id="navMenu">
@@ -38,9 +38,9 @@
       <li><a href="#news">最新动态</a></li>
       <li><a href="#faq">常见问题</a></li>
       <li><a href="#contact" class="nav__cta">免费咨询</a></li>
-      <li><a href="#" id="navLoginBtn">登录</a></li>
+      <li class="nav__account-item"><button type="button" id="navLoginBtn" class="nav__account-btn"><span class="nav__account-dot"></span><span class="nav__account-copy"><strong>登录/注册</strong><em>账号中心</em></span></button></li>
     </ul>
-    <div class="nav__user" id="navUser"><button class="nav__user-btn" id="navUserBtn"><span class="nav__user-avatar" id="navUserAvatar"></span><span id="navUserName"></span><svg width="8" height="5"><path d="M0 0l4 5 4-5z" fill="currentColor"/></svg></button><div class="nav__user-drop" id="navUserDropdown"><a href="#" id="btnDashboard">📊 管理后台</a><a href="#" id="btnProfile">👤 个人资料</a><a href="#" id="btnLogout">🚪 退出</a></div></div>
+    <div class="nav__user" id="navUser"><button class="nav__user-btn" id="navUserBtn"><span class="nav__user-avatar" id="navUserAvatar"></span><span class="nav__user-copy"><strong id="navUserName"></strong><em>我的账户</em></span><svg width="8" height="5"><path d="M0 0l4 5 4-5z" fill="currentColor"/></svg></button><div class="nav__user-drop" id="navUserDropdown"><a href="#" id="btnDashboard">📊 管理后台</a><a href="#" id="btnProfile">👤 个人资料</a><a href="#" id="btnLogout">🚪 退出</a></div></div>
   </div>
 </nav>
 
@@ -251,6 +251,6 @@
 </footer>
 
 <script src="api.js?v=5"></script>
-<script src="main.js?v=5"></script>
+<script src="main.js?v=8"></script>
 </body>
 </html>
