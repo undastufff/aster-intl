@@ -24,12 +24,13 @@ const TOKEN_EXPIRY = 30 * 24 * 60 * 60 * 1000; // 30 days
 // ===== Database (JSON file) =====
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-let db = { users: [], tokens: [] };
+let db = { users: [], tokens: [], contacts: [] };
 if (fs.existsSync(DB_PATH)) {
   try { db = JSON.parse(fs.readFileSync(DB_PATH, 'utf8')); } catch (e) { /* reset */ }
 }
 if (!db.users) db.users = [];
 if (!db.tokens) db.tokens = [];
+if (!db.contacts) db.contacts = [];
 
 function saveDb() {
   fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
@@ -103,10 +104,18 @@ const MIME = {
 function serveStatic(req, res) {
   let urlPath = req.url.split('?')[0];
   if (urlPath === '/') urlPath = '/index.html';
-
-  // Remove leading slash for relative path
   const relativePath = urlPath.startsWith('/') ? urlPath.slice(1) : urlPath;
-  const filePath = path.join(process.cwd(), relativePath);
+
+  // Render may start either server.js or server/server.js; try all stable roots.
+  const roots = [...new Set([process.cwd(), __dirname, path.join(__dirname, '..')])];
+  let filePath;
+  let fileRoot = roots[0];
+
+  for (const r of roots) {
+    const candidate = path.join(r, relativePath);
+    if (fs.existsSync(candidate)) { filePath = candidate; fileRoot = r; break; }
+  }
+  if (!filePath) filePath = path.join(roots[0], relativePath);
 
   const ext = path.extname(filePath).toLowerCase();
   const contentType = MIME[ext] || 'application/octet-stream';
@@ -118,15 +127,22 @@ function serveStatic(req, res) {
     if (err) {
       console.log('[Static] Not found:', filePath);
       // SPA fallback
-      const htmlPath = path.join(process.cwd(), 'index.html');
+      const htmlPath = path.join(fileRoot, 'index.html');
       fs.readFile(htmlPath, (err2, html) => {
         if (err2) { res.writeHead(404); res.end('Not Found'); return; }
-        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.writeHead(200, {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-store'
+        });
         res.end(html);
       });
       return;
     }
-    res.writeHead(200, { 'Content-Type': contentType });
+    const headers = { 'Content-Type': contentType };
+    if (['.html', '.css', '.js'].includes(ext)) {
+      headers['Cache-Control'] = 'no-store';
+    }
+    res.writeHead(200, headers);
     res.end(data);
   });
 }
@@ -195,7 +211,7 @@ const server = http.createServer(async (req, res) => {
 
     // Debug filesystem
     if (pathname === '/api/debug' && method === 'GET') {
-      const roots = [process.cwd(), path.join(__dirname, '..')];
+      const roots = [...new Set([process.cwd(), __dirname, path.join(__dirname, '..')])];
       const info = { roots, files: {} };
       roots.forEach(r => {
         try {
@@ -205,6 +221,33 @@ const server = http.createServer(async (req, res) => {
         }
       });
       return json(res, info);
+    }
+
+    // Admin health check & fix
+    if (pathname === '/api/admin-check' && method === 'GET') {
+      const admin = db.users.find(u => u.email === 'undastufff@gmail.com');
+      if (!admin) {
+        db.users.push({
+          id: crypto.randomUUID(),
+          email: 'undastufff@gmail.com',
+          passwordHash: hashPassword('Aster2025!'),
+          name: 'Aster Admin',
+          wechat: 'Dyoseff',
+          isAdmin: 1,
+          createdAt: new Date().toISOString(),
+          lastLogin: null,
+          loginCount: 0
+        });
+        saveDb();
+        return json(res, { message: 'Admin created', email: 'undastufff@gmail.com', password: 'Aster2025!' });
+      }
+      if (!admin.isAdmin) {
+        admin.isAdmin = 1;
+        saveDb();
+        return json(res, { message: 'Admin fixed, now isAdmin=1' });
+      }
+      const { passwordHash, ...safe } = admin;
+      return json(res, { message: 'Admin OK', user: safe });
     }
 
     // === AUTH ===
@@ -305,6 +348,26 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
+    // === CONTACT ===
+
+    // Submit contact form
+    if (pathname === '/api/contact' && method === 'POST') {
+      const body = await parseBody(req);
+      const { name, contact, target, message } = body;
+      if (!name || !contact || !target) {
+        return json(res, { error: '请填写姓名、联系方式和目标阶段' }, 400);
+      }
+      const entry = {
+        id: crypto.randomUUID(),
+        name, contact, target, message: message || '',
+        createdAt: new Date().toISOString(),
+      };
+      db.contacts.push(entry);
+      saveDb();
+      console.log('[Contact] New inquiry from:', name, target);
+      return json(res, { message: '收到！我们会在24小时内联系你' }, 201);
+    }
+
     // === ADMIN ===
 
     // Stats
@@ -394,6 +457,33 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(200, {
           'Content-Type': 'text/csv; charset=utf-8',
           'Content-Disposition': 'attachment; filename=aster-users-' + new Date().toISOString().slice(0, 10) + '.csv'
+        });
+        res.end(csv);
+      });
+    }
+
+    // Admin: Contact list
+    if (pathname === '/api/admin/contacts' && method === 'GET') {
+      return requireAdmin(req, res, (user) => {
+        const limit = Math.min(parseInt(url.searchParams.get('limit')) || 100, 1000);
+        const offset = parseInt(url.searchParams.get('offset')) || 0;
+        const sorted = [...db.contacts].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+        const paged = sorted.slice(offset, offset + limit);
+        json(res, { contacts: paged, total: db.contacts.length });
+      });
+    }
+
+    // Admin: Contact CSV export
+    if (pathname === '/api/admin/contacts/export' && method === 'GET') {
+      return requireAdmin(req, res, (user) => {
+        const headers = ['姓名', '联系方式', '目标阶段', '留言', '提交时间'];
+        const rows = db.contacts.map(c => [
+          c.name, c.contact, c.target, c.message, c.createdAt
+        ]);
+        const csv = '﻿' + [headers, ...rows].map(r => r.map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(',')).join('\n');
+        res.writeHead(200, {
+          'Content-Type': 'text/csv; charset=utf-8',
+          'Content-Disposition': 'attachment; filename=aster-contacts-' + new Date().toISOString().slice(0, 10) + '.csv'
         });
         res.end(csv);
       });
