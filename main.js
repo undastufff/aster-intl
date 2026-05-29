@@ -56,32 +56,32 @@ function setupLanguage(){
   var copy={
     zh:{
       htmlLang:'zh-CN',
-      nav:['首页','关于我们','服务项目','合作院校','申请流程','费用参考','最新动态','常见问题'],
+      nav:['首页','关于我们','服务项目','院校方向','申请流程','资料准备','最新动态','常见问题'],
       cta:'免费咨询',loginStrong:'登录/注册',loginEm:'账号中心',userEm:'我的账户',
       heroLabel:'ASTER INTERNATIONAL',
       heroMain:'ASTER',
       heroSub:'A Step Toward Tomorrow',
-      heroDesc:'東京 · 大阪 · 京都 · 名古屋\n语言学校 · 本科 · 研究生 · 艺术 · SGU',
+      heroDesc:'日本留学咨询 · 规划 · 材料 · 申请节奏\n语言学校 · 本科 · 研究生 · 艺术 · SGU',
       btn1:'免费咨询',btn2:'了解服务',toast:'已切换为中文'
     },
     ja:{
       htmlLang:'ja',
-      nav:['ホーム','Asterについて','サービス','提携校','申請の流れ','費用目安','ニュース','FAQ'],
+      nav:['ホーム','Asterについて','サービス','学校方向','申請の流れ','資料準備','ニュース','FAQ'],
       cta:'無料相談',loginStrong:'ログイン/登録',loginEm:'アカウント',userEm:'マイページ',
       heroLabel:'ASTER INTERNATIONAL',
       heroMain:'ASTER',
       heroSub:'A Step Toward Tomorrow',
-      heroDesc:'東京 · 大阪 · 京都 · 名古屋\n日本語学校 · 学部 · 大学院 · 芸術 · SGU',
+      heroDesc:'日本留学相談 · 計画 · 書類 · 申請スケジュール\n日本語学校 · 学部 · 大学院 · 芸術 · SGU',
       btn1:'無料相談',btn2:'サービスを見る',toast:'日本語に切り替えました'
     },
     en:{
       htmlLang:'en',
-      nav:['Home','About','Services','Schools','Process','Fees','News','FAQ'],
+      nav:['Home','About','Services','School Map','Process','Resources','News','FAQ'],
       cta:'Free Consultation',loginStrong:'Sign in / Join',loginEm:'Account',userEm:'My Account',
       heroLabel:'ASTER INTERNATIONAL',
       heroMain:'ASTER',
       heroSub:'A Step Toward Tomorrow',
-      heroDesc:'Tokyo · Osaka · Kyoto · Nagoya\nLanguage School · Undergraduate · Graduate · Art · SGU',
+      heroDesc:'Japan study planning · Documents · Application timeline\nLanguage School · Undergraduate · Graduate · Art · SGU',
       btn1:'Free Consultation',btn2:'View Services',toast:'Switched to English'
     }
   };
