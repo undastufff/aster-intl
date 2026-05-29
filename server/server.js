@@ -209,45 +209,37 @@ const server = http.createServer(async (req, res) => {
       return json(res, { status: 'ok', time: new Date().toISOString() });
     }
 
-    // Debug filesystem
+    // Debug filesystem, admin only.
     if (pathname === '/api/debug' && method === 'GET') {
-      const roots = [...new Set([process.cwd(), __dirname, path.join(__dirname, '..')])];
-      const info = { roots, files: {} };
-      roots.forEach(r => {
-        try {
-          info.files[r] = fs.readdirSync(r);
-        } catch(e) {
-          info.files[r] = 'ERROR: ' + e.message;
-        }
+      return requireAdmin(req, res, () => {
+        const roots = [...new Set([process.cwd(), __dirname, path.join(__dirname, '..')])];
+        const info = { roots, files: {} };
+        roots.forEach(r => {
+          try {
+            info.files[r] = fs.readdirSync(r);
+          } catch(e) {
+            info.files[r] = 'ERROR: ' + e.message;
+          }
+        });
+        return json(res, info);
       });
-      return json(res, info);
     }
 
-    // Admin health check & fix
+    // Admin health check & fix, admin only.
     if (pathname === '/api/admin-check' && method === 'GET') {
-      const admin = db.users.find(u => u.email === 'undastufff@gmail.com');
-      if (!admin) {
-        db.users.push({
-          id: crypto.randomUUID(),
-          email: 'undastufff@gmail.com',
-          passwordHash: hashPassword('Aster2025!'),
-          name: 'Aster Admin',
-          wechat: 'Dyoseff',
-          isAdmin: 1,
-          createdAt: new Date().toISOString(),
-          lastLogin: null,
-          loginCount: 0
-        });
-        saveDb();
-        return json(res, { message: 'Admin created', email: 'undastufff@gmail.com', password: 'Aster2025!' });
-      }
-      if (!admin.isAdmin) {
-        admin.isAdmin = 1;
-        saveDb();
-        return json(res, { message: 'Admin fixed, now isAdmin=1' });
-      }
-      const { passwordHash, ...safe } = admin;
-      return json(res, { message: 'Admin OK', user: safe });
+      return requireAdmin(req, res, () => {
+        const admin = db.users.find(u => u.email === 'undastufff@gmail.com');
+        if (!admin) {
+          return json(res, { error: '管理员账户不存在，请检查服务器初始化。' }, 500);
+        }
+        if (!admin.isAdmin) {
+          admin.isAdmin = 1;
+          saveDb();
+          return json(res, { message: 'Admin fixed, now isAdmin=1' });
+        }
+        const { passwordHash, ...safe } = admin;
+        return json(res, { message: 'Admin OK', user: safe });
+      });
     }
 
     // === AUTH ===
@@ -531,7 +523,7 @@ server.listen(PORT, () => {
       loginCount: 0
     });
     saveDb();
-    console.log('✓ Admin created: ' + ADMIN_EMAIL + ' / ' + ADMIN_PASS);
+    console.log('✓ Admin created: ' + ADMIN_EMAIL);
   } else {
     console.log('✓ Admin exists: ' + ADMIN_EMAIL);
   }
